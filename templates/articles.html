@@ -1,87 +1,40 @@
-<!DOCTYPE html>
-<html data-bs-theme="light" lang="en">
+{% extends "index.html" %}
 
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
-    <title>Projects - Brand</title>
-    <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800&amp;display=swap">
-    <link rel="stylesheet" href="assets/css/styles.min.css">
-</head>
-
-<body>
-    <nav class="navbar navbar-expand-md sticky-top py-3 navbar-dark" id="mainNav">
-        <div class="container"><a class="navbar-brand d-flex align-items-center" href="/"><span class="bs-icon-sm bs-icon-circle bs-icon-primary shadow d-flex justify-content-center align-items-center me-2 bs-icon"><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" viewBox="0 0 16 16" class="bi bi-bookmark">
-                        <path d="M2 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v13.5a.5.5 0 0 1-.777.416L8 13.101l-5.223 2.815A.5.5 0 0 1 2 15.5zm2-1a1 1 0 0 0-1 1v12.566l4.723-2.482a.5.5 0 0 1 .554 0L13 14.566V2a1 1 0 0 0-1-1z"></path>
-                    </svg></span><span>LearnIt</span></a><button data-bs-toggle="collapse" class="navbar-toggler" data-bs-target="#navcol-1"><span class="visually-hidden">Toggle navigation</span><span class="navbar-toggler-icon"></span></button>
-            <div class="collapse navbar-collapse" id="navcol-1">
-                <ul class="navbar-nav mx-auto">
-                    <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
-                    <li class="nav-item"><a class="nav-link" href="services.html">Videos</a></li>
-                    <li class="nav-item"><a class="nav-link active" href="articles.html">Articles</a></li>
-                    <li class="nav-item"></li>
-                    <li class="nav-item"><a class="nav-link" href="contacts.html">Contacts</a></li>
-                </ul><a class="btn btn-primary shadow" role="button" href="signup.html">Sign up</a>
+{% block content %}
+<section class="py-5">
+    <div class="container py-4 py-xl-5">
+        <div class="row mb-5">
+            <div class="col-md-8 col-xl-6 text-center mx-auto">
+                <h1 class="display-1 text-center">Articles</h1>
+                <p class="w-lg-50"></p>
             </div>
         </div>
-    </nav>
-    <section class="py-5">
-        <div class="container py-4 py-xl-5">
-            <div class="row mb-5">
-                <div class="col-md-8 col-xl-6 text-center mx-auto">
-                    <h1 class="display-1 text-center">Articles</h1>
-                    <p class="w-lg-50"></p>
-                </div>
-            </div>
-            <div class="row gy-4 row-cols-1 row-cols-md-2 row-cols-xl-3">
-                <div class="col">
-                    <div class="p-4"><span class="badge rounded-pill bg-primary mb-2">Article</span>
-                        <h4>Articles 101</h4>
-                        <p>Learn how to write articles</p>
-                        <div class="d-flex"><img class="rounded-circle flex-shrink-0 me-3 fit-cover" width="50" height="50" src="https://cdn.bootstrapstudio.io/placeholders/1400x800.png">
-                            <div>
-                                <p class="fw-bold mb-0">John Doe</p>
-                                <p class="text-muted mb-0">Content Manager at LearnIt</p>
-                            </div>
+        <div class="row gy-4 row-cols-1 row-cols-md-2 row-cols-xl-3">
+            <div class="col">
+                <div class="p-4"><span class="badge rounded-pill bg-primary mb-2">Article</span>
+                    <h4>Articles 101</h4>
+                    <p>Learn how to write articles</p>
+                    <div class="d-flex"><img class="rounded-circle flex-shrink-0 me-3 fit-cover" width="50" height="50" src="https://cdn.bootstrapstudio.io/placeholders/1400x800.png">
+                        <div>
+                            <p class="fw-bold mb-0">John Doe</p>
+                            <p class="text-muted mb-0">Content Manager at LearnIt</p>
                         </div>
-                    </div><button class="btn btn-primary" type="button" style="margin: 17px;">Read</button>
-                </div>
-                <div class="col">
-                    <div class="p-4"><span class="badge rounded-pill bg-primary mb-2">Article</span>
-                        <h4>Will AI replace programmers?</h4>
-                        <p>Discussing modern tendentions</p>
-                        <div class="d-flex"><img class="rounded-circle flex-shrink-0 me-3 fit-cover" width="50" height="50" src="https://cdn.bootstrapstudio.io/placeholders/1400x800.png">
-                            <div>
-                                <p class="fw-bold mb-0">Jana Doe</p>
-                                <p class="text-muted mb-0">CTO of Learnify</p>
-                            </div>
+                    </div>
+                </div><button class="btn btn-primary" type="button" style="margin: 17px;">Read</button>
+            </div>
+            <div class="col">
+                <div class="p-4"><span class="badge rounded-pill bg-primary mb-2">Article</span>
+                    <h4>Will AI replace programmers?</h4>
+                    <p>Discussing modern tendentions</p>
+                    <div class="d-flex"><img class="rounded-circle flex-shrink-0 me-3 fit-cover" width="50" height="50" src="https://cdn.bootstrapstudio.io/placeholders/1400x800.png">
+                        <div>
+                            <p class="fw-bold mb-0">Jana Doe</p>
+                            <p class="text-muted mb-0">CTO of Learnify</p>
                         </div>
-                    </div><button class="btn btn-primary" type="button" style="margin: 17px;">Read</button>
-                </div>
+                    </div>
+                </div><button class="btn btn-primary" type="button" style="margin: 17px;">Read</button>
             </div>
         </div>
-    </section>
-    <footer class="bg-dark">
-        <div class="container py-4 py-lg-5">
-            <div class="row justify-content-center">
-                <div class="col-lg-3 text-start text-lg-start d-flex flex-column align-items-center order-first align-items-lg-start order-lg-last">
-                    <div class="fw-bold d-flex align-items-center mb-2"><span class="bs-icon-sm bs-icon-circle bs-icon-primary d-flex justify-content-center align-items-center bs-icon me-2"><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" viewBox="0 0 16 16" class="bi bi-bookmark">
-                                <path d="M2 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v13.5a.5.5 0 0 1-.777.416L8 13.101l-5.223 2.815A.5.5 0 0 1 2 15.5zm2-1a1 1 0 0 0-1 1v12.566l4.723-2.482a.5.5 0 0 1 .554 0L13 14.566V2a1 1 0 0 0-1-1z"></path>
-                            </svg></span><span class="text-center">LearnIt</span></div>
-                </div>
-            </div>
-            <hr>
-            <div class="text-muted d-flex justify-content-between align-items-center pt-3">
-                <p class="mb-0">Copyright © 2024 LearnIt</p>
-                <ul class="list-inline mb-0">
-                    <li class="list-inline-item"></li>
-                </ul>
-            </div>
-        </div>
-    </footer>
-    <script src="assets/bootstrap/js/bootstrap.min.js"></script>
-    <script src="assets/js/script.min.js"></script>
-</body>
-
-</html>
+    </div>
+</section>
+{% endblock content %}
