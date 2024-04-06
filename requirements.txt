@@ -1,0 +1,5 @@
+flask==3.0.2
+flask_wtf==1.2.1
+flask_login==0.6.3
+flask_mail==0.9.1
+flask_ckeditor==0.5.1

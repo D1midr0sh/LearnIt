@@ -14,6 +14,7 @@ class User(SqlAlchemyBase, UserMixin):
     hashed_password = sqlalchemy.Column(sqlalchemy.String)
     small_desc = sqlalchemy.Column(sqlalchemy.VARCHAR(70), nullable=True)
     activated = sqlalchemy.Column(sqlalchemy.Boolean, default=False)
+    articles = sqlalchemy.orm.relationship("Article", back_populates="user")
 
     def set_password(self, password):
         self.hashed_password = generate_password_hash(password)

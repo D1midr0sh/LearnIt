@@ -6,6 +6,7 @@ from flask_mail import Mail
 import os
 
 from data.db_session import create_session, global_init
+from data.articles import Article
 from data.users import User
 from forms.login import LoginForm
 from forms.signup import SignUpForm
@@ -47,7 +48,9 @@ def base():
 
 @app.route("/articles")
 def articles():
-    return render_template("articles.html")
+    with create_session() as db_sess:
+        articles = db_sess.query(Article).all()
+        return render_template("articles.html", articles=articles)
 
 
 @app.route("/signup", methods=["GET", "POST"])

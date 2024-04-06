@@ -20,30 +20,21 @@
             </div>
         </div>
         <div class="row gy-4 row-cols-1 row-cols-md-2 row-cols-xl-3">
+            {% for article in articles %}
             <div class="col">
                 <div class="p-4"><span class="badge rounded-pill bg-primary mb-2">Article</span>
-                    <h4>Articles 101</h4>
-                    <p>Learn how to write articles</p>
+                    <h4>{{ article.title }}</h4>
+                    <p>{{ article.small_desc }}</p>
                     <div class="d-flex"><img class="rounded-circle flex-shrink-0 me-3 fit-cover" width="50" height="50" src="https://cdn.bootstrapstudio.io/placeholders/1400x800.png">
                         <div>
-                            <p class="fw-bold mb-0">John Doe</p>
-                            <p class="text-muted mb-0">Content Manager at LearnIt</p>
+                            <p class="fw-bold mb-0">{{ article.user.first_name }}&nbsp;{{ article.user.last_name }}</p>
+                            <p class="text-muted mb-0">{{ article.user.first_name.small_desc }}</p>
                         </div>
                     </div>
                 </div><button class="btn btn-primary" type="button" style="margin: 17px;">Read</button>
             </div>
-            <div class="col">
-                <div class="p-4"><span class="badge rounded-pill bg-primary mb-2">Article</span>
-                    <h4>Will AI replace programmers?</h4>
-                    <p>Discussing modern tendentions</p>
-                    <div class="d-flex"><img class="rounded-circle flex-shrink-0 me-3 fit-cover" width="50" height="50" src="https://cdn.bootstrapstudio.io/placeholders/1400x800.png">
-                        <div>
-                            <p class="fw-bold mb-0">Jana Doe</p>
-                            <p class="text-muted mb-0">CTO of Learnify</p>
-                        </div>
-                    </div>
-                </div><button class="btn btn-primary" type="button" style="margin: 17px;">Read</button>
-            </div>
+            {% endfor %}
+            {% if not articles %}<h2 class="fw-bold">No articles have been published yet</h2>{% endif %}
         </div>
     </div>
 </section>
