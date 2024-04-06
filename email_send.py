@@ -5,8 +5,9 @@ from utilities import asyncron
 
 @asyncron
 def send_async_email(app, msg):
-    mail = Mail(app)
-    mail.send(msg)
+    with app.app_context():
+        mail = Mail(app)
+        mail.send(msg)
 
 
 def send_email(subject, sender, recipicents, text_body, html_body, app):

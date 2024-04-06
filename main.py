@@ -17,7 +17,7 @@ load_dotenv()
 
 app = Flask(__name__)
 login_manager = LoginManager(app)
-app.config['MAIL_SERVER'] = 'smtp.gmail.com'
+app.config['MAIL_SERVER'] = 'smtp.timeweb.ru'
 app.config['MAIL_PORT'] = 465
 app.config['MAIL_USERNAME'] = os.environ.get("MAIL_USERNAME")
 app.config['MAIL_PASSWORD'] = os.environ.get("MAIL_PASSWORD")
@@ -76,16 +76,16 @@ def signup():
             user.set_password(form.password.data)
             session.add(user)
             session.commit()
-        # send_email(
-        #     "Thank you for registering",
-        #     sender=ADMIN_EMAIL[0],
-        #     recipicents=[form.email.data],
-        #     text_body=render_template("mail/new_user.txt",
-        #                               first_name=form.first_name.data),
-        #     html_body=render_template("mail/new_user.html",
-        #                               first_name=form.first_name.data),
-        #     app=app
-        # )
+        send_email(
+            "Thank you for registering",
+            sender=ADMIN_EMAIL[0],
+            recipicents=[form.email.data],
+            text_body=render_template("mail/new_user.txt",
+                                      first_name=form.first_name.data),
+            html_body=render_template("mail/new_user.html",
+                                      first_name=form.first_name.data),
+            app=app
+        )
         return redirect("/")
     return render_template("auth/signup.html", form=form)
 
