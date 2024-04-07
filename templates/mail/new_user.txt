@@ -1,6 +1,6 @@
 Dear {{ first_name }},
 
-Thank you very mush for registering on LearnIt.
+Thank you very mush for registration on LearnIt.
 
 Regards,
 

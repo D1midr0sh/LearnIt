@@ -53,6 +53,12 @@ def articles():
         return render_template("articles.html", articles=articles)
 
 
+@app.route("/profile")
+@login_required
+def profile():
+    return render_template("profile.html")
+
+
 @app.route("/signup", methods=["GET", "POST"])
 def signup():
     form = SignUpForm()

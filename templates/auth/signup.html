@@ -49,7 +49,11 @@
                                 </p>
                             {% endfor %}
                             <div class="mb-3">{{ form.submit(type="submit", class="btn btn-primary shadow d-block w-100")}}</div>
-                            {{ message }}
+                            {% if message %}
+                            <div class="alert alert-warning" role="alert">
+                                {{ message }}
+                            </div>
+                            {% endif %}
                             <p class="text-muted">Already have an account?&nbsp;<a href="/login">Log in</a></p>
                         </form>
                     </div>
