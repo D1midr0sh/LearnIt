@@ -1,0 +1,44 @@
+{% extends "index.html" %}
+
+{% block content %}
+
+<section class="py-1">
+    <div class="container py-5">
+        <div class="justify-content-center">
+            <form class="p-3" method="post">
+                {{ form.hidden_tag() }}
+                <div class="col-md-4 mb-3">
+                    {{ form.title(class="form-control", placeholder="Title")}}
+                </div>
+                {% for error in form.title.errors %}
+                    <p class="alert alert-danger" role="alert">
+                        {{ error }}
+                    </p>
+                {% endfor %}
+                <div class="col-md-4 mb-3">
+                    {{ form.small_desc(class="form-control", placeholder="Small description")}}
+                </div>
+                {% for error in form.small_desc.errors %}
+                    <p class="alert alert-danger" role="alert">
+                        {{ error }}
+                    </p>
+                {% endfor %}
+                <div class="mb-3">
+                    {{ form.content.label }}
+                    {{ form.content(class="form-control", rows=10, placeholder="Content")}}
+                </div>
+                {% for error in form.content.errors %}
+                    <p class="alert alert-danger" role="alert">
+                        {{ error }}
+                    </p>
+                {% endfor %}
+                <div class="mb-3 align-items-center">
+                    {{ form.submit(class="btn btn-secondary shadow w-25 align-center") }}
+                </div>
+            </form>
+        </div>
+    </div>
+</section>
+{{ ckeditor.load() }}
+{{ ckeditor.config(name="content")}}
+{% endblock content %}

@@ -1,0 +1,9 @@
+Dear {{ name }}, 
+
+Thank you for your feedback. Our CEO will personaly look into it and answer you if needed.
+
+Your message:
+{{ message }}
+
+Regards,
+LearnIt team

@@ -18,25 +18,33 @@
                             </svg></div>
                         <form method="post">
                             {{ form.hidden_tag() }}
-                            <div class="mb-3">{{ form.first_name(class="form-control", placeholder="First name") }}</div>
+                            <div class="mb-3 form-group required">
+                                {{ form.first_name(class="form-control", placeholder="First name (req.)") }}
+                            </div>
                             {% for error in form.first_name.errors %}
                                 <p class="alert alert-danger" role="alert">
                                     {{ error }}
                                 </p>
                             {% endfor %}
-                            <div class="mb-3">{{ form.last_name(class="form-control", placeholder="Last name") }}</div>
+                            <div class="mb-3">{{ form.last_name(class="form-control", placeholder="Last name (req.)") }}</div>
                             {% for error in form.last_name.errors %}
                                 <p class="alert alert-danger" role="alert">
                                     {{ error }}
                                 </p>
                             {% endfor %}
-                            <div class="mb-3">{{ form.email(class="form-control", type="email", placeholder="Email")}}</div>
+                            <div class="mb-3">{{ form.email(class="form-control", type="email", placeholder="Email (req.)")}}</div>
                             {% for error in form.email.errors %}
                                 <p class="alert alert-danger" role="alert">
                                     {{ error }}
                                 </p>
                             {% endfor %}
-                            <div class="mb-3">{{ form.password(class="form-control", type="password", placeholder="Password")}}</div>
+                            <div class="mb-3">{{ form.small_desc(class="form-control", placeholder="Small description") }}</div>
+                            {% for error in form.small_desc.errors %}
+                                <p class="alert alert-danger" role="alert">
+                                    {{ error }}
+                                </p>
+                            {% endfor %}
+                            <div class="mb-3">{{ form.password(class="form-control", type="password", placeholder="Password (req.)")}}</div>
                             {% for error in form.password.errors %}
                                 <p class="alert alert-danger" role="alert">
                                     {{ error }}

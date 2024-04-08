@@ -1,13 +1,16 @@
 from dotenv import load_dotenv
-from flask import Flask, redirect, render_template
-from flask_login import LoginManager, login_user, login_required, logout_user
+from flask import Flask, redirect, render_template, request
+from flask_login import current_user, LoginManager, login_user, login_required, logout_user
 from flask_mail import Mail
+from flask_pagedown import PageDown
 
 import os
 
 from data.db_session import create_session, global_init
 from data.articles import Article
 from data.users import User
+from forms.article import ArticleForm
+from forms.feedback import FeedbackForm
 from forms.login import LoginForm
 from forms.signup import SignUpForm
 from email_send import send_email
@@ -18,6 +21,7 @@ load_dotenv()
 
 app = Flask(__name__)
 login_manager = LoginManager(app)
+pagedown = PageDown(app)
 app.config['MAIL_SERVER'] = 'smtp.timeweb.ru'
 app.config['MAIL_PORT'] = 465
 app.config['MAIL_USERNAME'] = os.environ.get("MAIL_USERNAME")
@@ -46,17 +50,71 @@ def base():
     return render_template("index.html")
 
 
+@app.route("/contacts", methods=["GET", "POST"])
+def contacts():
+    form = FeedbackForm()
+    if request.method == "GET":
+        return render_template("contacts.html", form=form)
+    if form.validate_on_submit():
+        send_email(
+            "Thank you for your feedback",
+            sender=ADMIN_EMAIL[0],
+            recipients=[form.email.data],
+            text_body=render_template(
+                "mail/feedback_reply.txt",
+                name=form.name.data,
+                message=form.message.data
+            ),
+            html_body=render_template(
+                "mail/feedback_reply.html",
+                name=form.name.data,
+                message=form.message.data
+            ),
+            app=app
+        )
+        message = "Your feedback has been sent"
+        return render_template("contacts.html", form=form, message=message)
+    return render_template("contacts.html", form=form)
+
+
 @app.route("/articles")
 def articles():
     with create_session() as db_sess:
         articles = db_sess.query(Article).all()
-        return render_template("articles.html", articles=articles)
+        return render_template("articles/articles.html", articles=articles)
 
 
-@app.route("/profile")
+@app.route("/article/<int:id>", methods=["GET", "POST"])
+def article(id: int):
+    with create_session() as db_sess:
+        article = db_sess.query(Article).get(id)
+        return render_template("articles/article.html", article=article)
+
+
+@app.route("/add", methods=["GET", "POST"])
 @login_required
-def profile():
-    return render_template("profile.html")
+def add():
+    form = ArticleForm()
+    if form.validate_on_submit():
+        with create_session() as db_sess:
+            article = Article(
+                title=form.title.data,
+                small_desc=form.small_desc.data,
+                content=form.content.data,
+                user=current_user
+            )
+            db_sess.add(article)
+            db_sess.commit()
+            return redirect(f"/article/{article.id}")
+    return render_template("articles/newarticle.html", form=form)
+
+
+@app.route("/profile/<int:id>")
+@login_required
+def profile(id: int):
+    with create_session() as db_sess:
+        user = db_sess.query(User).get(id)
+        return render_template("profile.html", user=user)
 
 
 @app.route("/signup", methods=["GET", "POST"])
@@ -80,6 +138,7 @@ def signup():
             first_name=form.first_name.data,
             last_name=form.last_name.data,
             email=form.email.data,
+            small_desc=form.small_desc.data
         )
         with create_session() as session:
             user.set_password(form.password.data)
@@ -88,7 +147,7 @@ def signup():
         send_email(
             "Thank you for registering",
             sender=ADMIN_EMAIL[0],
-            recipicents=[form.email.data],
+            recipients=[form.email.data],
             text_body=render_template("mail/new_user.txt",
                                       first_name=form.first_name.data),
             html_body=render_template("mail/new_user.html",

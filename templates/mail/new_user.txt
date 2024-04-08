@@ -3,5 +3,4 @@ Dear {{ first_name }},
 Thank you very mush for registration on LearnIt.
 
 Regards,
-
 LearnIt educational platform
