@@ -3,8 +3,7 @@ from flask import Flask, redirect, render_template, request
 from flask_login import current_user, LoginManager, login_user, login_required
 from flask_login import logout_user
 from flask_mail import Mail
-from flask_pagedown import PageDown
-from markdown import markdown
+from flask_ckeditor import CKEditor
 
 import os
 
@@ -23,13 +22,13 @@ load_dotenv()
 
 app = Flask(__name__)
 login_manager = LoginManager(app)
-pagedown = PageDown(app)
-app.config['MAIL_SERVER'] = 'smtp.timeweb.ru'
-app.config['MAIL_PORT'] = 465
-app.config['MAIL_USERNAME'] = os.environ.get("MAIL_USERNAME")
-app.config['MAIL_PASSWORD'] = os.environ.get("MAIL_PASSWORD")
-app.config['MAIL_USE_TLS'] = False
-app.config['MAIL_USE_SSL'] = True
+ckeditor = CKEditor(app)
+app.config["MAIL_SERVER"] = "smtp.timeweb.ru"
+app.config["MAIL_PORT"] = 465
+app.config["MAIL_USERNAME"] = os.environ.get("MAIL_USERNAME")
+app.config["MAIL_PASSWORD"] = os.environ.get("MAIL_PASSWORD")
+app.config["MAIL_USE_TLS"] = False
+app.config["MAIL_USE_SSL"] = True
 ADMIN_EMAIL = os.environ.get("MAIL_ADMINS").split(",")
 mail = Mail(app)
 app.config["SECRET_KEY"] = os.environ.get("SECRET_KEY", "secret")
@@ -65,14 +64,14 @@ def contacts():
             text_body=render_template(
                 "mail/feedback_reply.txt",
                 name=form.name.data,
-                message=form.message.data
+                message=form.message.data,
             ),
             html_body=render_template(
                 "mail/feedback_reply.html",
                 name=form.name.data,
-                message=form.message.data
+                message=form.message.data,
             ),
-            app=app
+            app=app,
         )
         message = "Your feedback has been sent"
         return render_template("contacts.html", form=form, message=message)
@@ -90,8 +89,7 @@ def articles():
 def article(id: int):
     with create_session() as db_sess:
         article = db_sess.query(Article).get(id)
-        content = markdown(article.content, output_format="html")
-        return render_template("articles/article.html", article=article, content=content)
+        return render_template("articles/article.html", article=article)
 
 
 @app.route("/add", methods=["GET", "POST"])
@@ -104,7 +102,7 @@ def add():
                 title=form.title.data,
                 small_desc=form.small_desc.data,
                 content=form.content.data,
-                user=current_user
+                user=current_user,
             )
             db_sess.add(article)
             db_sess.commit()
@@ -126,22 +124,20 @@ def signup():
     if form.validate_on_submit():
         if form.password.data != form.repeat_password.data:
             return render_template(
-                "auth/signup.html",
-                form=form,
-                message="Passwords do not match"
+                "auth/signup.html", form=form, message="Passwords do not match"
             )
         with create_session() as session:
             if session.query(User).where(User.email == form.email.data).first():
                 return render_template(
                     "auth/signup.html",
                     form=form,
-                    message="User with this email already exists"
+                    message="User with this email already exists",
                 )
         user = User(
             first_name=form.first_name.data,
             last_name=form.last_name.data,
             email=form.email.data,
-            small_desc=form.small_desc.data
+            small_desc=form.small_desc.data,
         )
         with create_session() as session:
             user.set_password(form.password.data)
@@ -151,11 +147,13 @@ def signup():
             "Thank you for registering",
             sender=ADMIN_EMAIL[0],
             recipients=[form.email.data],
-            text_body=render_template("mail/new_user.txt",
-                                      first_name=form.first_name.data),
-            html_body=render_template("mail/new_user.html",
-                                      first_name=form.first_name.data),
-            app=app
+            text_body=render_template(
+                "mail/new_user.txt", first_name=form.first_name.data
+            ),
+            html_body=render_template(
+                "mail/new_user.html", first_name=form.first_name.data
+            ),
+            app=app,
         )
         return redirect("/")
     return render_template("auth/signup.html", form=form)
@@ -171,9 +169,7 @@ def login():
                 login_user(user)
                 return redirect("/")
             return render_template(
-                "auth/login.html",
-                form=form,
-                message="Wrong email or password"
+                "auth/login.html", form=form, message="Wrong email or password"
             )
     return render_template("auth/login.html", form=form)
 
