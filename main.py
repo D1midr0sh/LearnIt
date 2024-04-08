@@ -1,8 +1,10 @@
 from dotenv import load_dotenv
 from flask import Flask, redirect, render_template, request
-from flask_login import current_user, LoginManager, login_user, login_required, logout_user
+from flask_login import current_user, LoginManager, login_user, login_required
+from flask_login import logout_user
 from flask_mail import Mail
 from flask_pagedown import PageDown
+from markdown import markdown
 
 import os
 
@@ -88,7 +90,8 @@ def articles():
 def article(id: int):
     with create_session() as db_sess:
         article = db_sess.query(Article).get(id)
-        return render_template("articles/article.html", article=article)
+        content = markdown(article.content, output_format="html")
+        return render_template("articles/article.html", article=article, content=content)
 
 
 @app.route("/add", methods=["GET", "POST"])
