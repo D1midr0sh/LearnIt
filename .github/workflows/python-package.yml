@@ -35,5 +35,6 @@ jobs:
         flake8 . --count --show-source --statistics
     - name: Lint with Black
       run: |
+        if [ -f test_requirements.txt ]; then pip install -r test_requirements.txt; fi
         black .
         black . --check
