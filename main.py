@@ -4,13 +4,16 @@ from flask_login import current_user, LoginManager, login_user, login_required
 from flask_login import logout_user
 from flask_mail import Mail
 from flask_ckeditor import CKEditor
+from werkzeug.utils import secure_filename
 
 import os
 
+from config import app, ADMIN_EMAIL
 from data.db_session import create_session, global_init
 from data.articles import Article
 from data.users import User
 from forms.article import ArticleForm
+from forms.edit_profile import ProfileEditForm
 from forms.feedback import FeedbackForm
 from forms.login import LoginForm
 from forms.signup import SignUpForm
@@ -20,19 +23,9 @@ from email_send import send_email
 load_dotenv()
 
 
-app = Flask(__name__)
 login_manager = LoginManager(app)
 ckeditor = CKEditor(app)
-app.config["MAIL_SERVER"] = "smtp.timeweb.ru"
-app.config["MAIL_PORT"] = 465
-app.config["MAIL_USERNAME"] = os.environ.get("MAIL_USERNAME")
-app.config["MAIL_PASSWORD"] = os.environ.get("MAIL_PASSWORD")
-app.config["MAIL_USE_TLS"] = False
-app.config["MAIL_USE_SSL"] = True
-ADMIN_EMAIL = os.environ.get("MAIL_ADMINS").split(",")
 mail = Mail(app)
-app.config["SECRET_KEY"] = os.environ.get("SECRET_KEY", "secret")
-app.config["DEBUG"] = os.environ.get("DEBUG", "No").lower() in ["true", "yes", "1"]
 
 
 @login_manager.user_loader
@@ -115,7 +108,29 @@ def add():
 def profile(id: int):
     with create_session() as db_sess:
         user = db_sess.query(User).get(id)
-        return render_template("profile.html", user=user)
+        return render_template("auth/profile.html", user=user)
+
+
+@app.route("/profile/edit", methods=["GET", "POST"])
+@login_required
+def profile_edit():
+    with create_session() as db_sess:
+        user = db_sess.query(User).get(current_user.id)
+        form = ProfileEditForm(
+            first_name=user.first_name,
+            last_name=user.last_name,
+            small_desc=user.small_desc,
+        )
+        if form.validate_on_submit():
+            user.first_name = form.first_name.data
+            user.last_name = form.last_name.data
+            user.small_desc = form.small_desc.data
+            filename = secure_filename(form.avatar.data.filename)
+            form.avatar.data.save(os.path.join(app.config["SAVE_PATH"], filename))
+            user.avatar_path = os.path.join(app.config["UPLOAD_PATH"], filename)
+            db_sess.commit()
+            return redirect(f"/profile/{current_user.id}")
+        return render_template("auth/profile_edit.html", form=form)
 
 
 @app.route("/signup", methods=["GET", "POST"])

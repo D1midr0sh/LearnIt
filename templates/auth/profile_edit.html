@@ -1,0 +1,56 @@
+{% extends "index.html" %}
+
+{% block content %}
+<section class="py-5">
+    <div class="container py-5">
+        <div class="row mb-4 mb-lg-5">
+            <div class="col-md-8 col-xl-6 text-center mx-auto">
+                <h2 class="fw-bold">Edit your profile</h2>
+            </div>
+        </div>
+        <div class="row d-flex justify-content-center">
+            <div class="col-md-6 col-xl-4">
+                <div class="card">
+                    <div class="card-body text-center d-flex flex-column align-items-center">
+                        <form method="post" action="" enctype="multipart/form-data">
+                            {{ form.hidden_tag() }}
+                            <div class="mb-3 form-group required">
+                                {{ form.first_name(class="form-control", placeholder="First name (req.)") }}
+                            </div>
+                            {% for error in form.first_name.errors %}
+                                <p class="alert alert-danger" role="alert">
+                                    {{ error }}
+                                </p>
+                            {% endfor %}
+                            <div class="mb-3">{{ form.last_name(class="form-control", placeholder="Last name (req.)") }}</div>
+                            {% for error in form.last_name.errors %}
+                                <p class="alert alert-danger" role="alert">
+                                    {{ error }}
+                                </p>
+                            {% endfor %}
+                            <div class="mb-3">{{ form.small_desc(class="form-control", placeholder="Small description") }}</div>
+                            {% for error in form.small_desc.errors %}
+                                <p class="alert alert-danger" role="alert">
+                                    {{ error }}
+                                </p>
+                            {% endfor %}
+                            <div class="mb-3">{{ form.avatar(class="form-control", placeholder="Image should be squared") }}</div>
+                            {% for error in form.avatar.errors %}
+                                <p class="alert alert-danger" role="alert">
+                                    {{ error }}
+                                </p>
+                            {% endfor %}
+                            <div class="mb-3">{{ form.submit(type="submit", class="btn btn-primary shadow d-block w-100")}}</div>
+                            {% if message %}
+                            <div class="alert alert-warning" role="alert">
+                                {{ message }}
+                            </div>
+                            {% endif %}
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock content %}

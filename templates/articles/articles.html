@@ -25,12 +25,19 @@
                 <div class="p-4"><span class="badge rounded-pill bg-primary mb-2">Article</span>
                     <h4>{{ article.title }}</h4>
                     <p>{{ article.small_desc }}</p>
-                    <div class="d-flex"><img class="rounded-circle flex-shrink-0 me-3 fit-cover" width="50" height="50" src="https://cdn.bootstrapstudio.io/placeholders/1400x800.png">
-                        <div>
-                            <p class="fw-bold mb-0">{{ article.user.first_name }}&nbsp;{{ article.user.last_name }}</p>
-                            <p class="text-muted mb-0"> {% if article.user.small_desc %}{{ article.user.small_desc }}{% endif %}</p>
+                    <a href="/profile/{{ article.user.id }}" class="link-light">
+                        <div class="d-flex">
+                            {% if article.user.avatar_path %}
+                            <img class="rounded-circle flex-shrink-0 me-3 fit-cover" width="50" height="50" src="{{ url_for('static', filename=article.user.avatar_path) }}">
+                            {% else %}
+                            <img class="rounded-circle flex-shrink-0 me-3 fit-cover" width="50" height="50" src="https://cdn.bootstrapstudio.io/placeholders/1400x800.png">
+                            {% endif %}
+                            <div>
+                                <p class="fw-bold mb-0">{{ article.user.first_name }}&nbsp;{{ article.user.last_name }}</p>
+                                <p class="text-muted mb-0"> {% if article.user.small_desc %}{{ article.user.small_desc }}{% endif %}</p>
+                            </div>
                         </div>
-                    </div>
+                    </a>
                 </div><a class="btn btn-primary" type="button" style="margin: 17px;" href="/article/{{ article.id }}">Read</a>
             </div>
             {% endfor %}

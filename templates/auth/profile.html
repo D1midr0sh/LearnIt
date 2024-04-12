@@ -1,0 +1,27 @@
+{% extends "index.html" %}
+
+{% block content %}
+<section class="py-5">
+    <div class="container py-1">
+        <h1 class="fw-bold">{% if current_user == user %}Hello,{% endif %} {{ user.first_name }} {{ user.last_name }}</h1>
+    </div>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6">
+                {% if user.avatar_path %}
+                    <img style="height: 200px;width: 200px;border-radius: 23px;" class="img-fluid" src="{{ url_for('static', filename=user.avatar_path) }}" alt="Avatar not found" />
+                {% else %}
+                    <img style="height: 200px;width: 200px;border-radius: 23px;" src="https://cdn.bootstrapstudio.io/placeholders/1400x800.png"/>
+                {% endif %}
+                
+            </div>
+            <div class="col-md-6">
+                <p class="fs-4"><strong>{% if current_user == user %}Your{% endif %} Email: </strong>{{ current_user.email }}</p>
+                <p class="fs-4"><strong>Description: </strong> {{ user.small_desc }}</p>
+                {% if current_user == user %}<a class="btn btn-warning shadow m-2" role="button" href="/logout">Log out</a><a class="btn btn-success shadow m-2" role="button" href="/profile/edit">Edit</a>{% endif %}
+            </div>
+            
+        </div>
+    </div>
+</section>
+{% endblock content %}

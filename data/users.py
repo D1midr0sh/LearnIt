@@ -1,8 +1,23 @@
+import imghdr
 import sqlalchemy
+import uuid
+from config import app
 from flask_login import UserMixin
 from werkzeug.security import check_password_hash, generate_password_hash
+from werkzeug.utils import secure_filename
 
-from .db_session import SqlAlchemyBase
+from .db_session import SqlAlchemyBase, create_session
+
+import os
+
+
+def validate_image(stream):
+    header = stream.read(512)
+    stream.seek(0)
+    format = imghdr.what(None, header)
+    if not format:
+        return None
+    return "." + (format if format != "jpeg" else "jpg")
 
 
 class User(SqlAlchemyBase, UserMixin):
@@ -15,9 +30,13 @@ class User(SqlAlchemyBase, UserMixin):
     small_desc = sqlalchemy.Column(sqlalchemy.VARCHAR(70), nullable=True)
     activated = sqlalchemy.Column(sqlalchemy.Boolean, default=False)
     articles = sqlalchemy.orm.relationship("Article", back_populates="user")
+    avatar_path = sqlalchemy.Column(sqlalchemy.String, nullable=True)
 
     def set_password(self, password):
         self.hashed_password = generate_password_hash(password)
 
     def check_password(self, password):
         return check_password_hash(self.hashed_password, password)
+
+    def __repr__(self):
+        return f"<User> {self.id} {self.email}"

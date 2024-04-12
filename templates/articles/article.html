@@ -6,16 +6,26 @@
         <h1 class="fw-bold">{{ article.title }}</h1>
         <h3 class="text-muted">{{ article.small_desc }}</h3>
         <br>
-        <div class="d-flex"><img class="rounded-circle flex-shrink-0 me-3 fit-cover" width="50" height="50" src="https://cdn.bootstrapstudio.io/placeholders/1400x800.png">
-            <div>
-                <p class="fw-bold mb-0">{{ article.user.first_name }}&nbsp;{{ article.user.last_name }}</p>
-                <p class="text-muted mb-0"> {% if article.user.small_desc %}{{ article.user.small_desc }}{% endif %}</p>
+        <a href="/profile/{{ article.user.id }}" class="link-light">
+            <div class="d-flex">
+                {% if article.user.avatar_path %}
+                <img class="rounded-circle flex-shrink-0 me-3 fit-cover" width="50" height="50" src="{{ url_for('static', filename=article.user.avatar_path) }}">
+                {% else %}
+                <img class="rounded-circle flex-shrink-0 me-3 fit-cover" width="50" height="50" src="https://cdn.bootstrapstudio.io/placeholders/1400x800.png">
+                {% endif %}
+                
+                <div>
+                    <p class="fw-bold mb-0">{{ article.user.first_name }}&nbsp;{{ article.user.last_name }}</p>
+                    <p class="text-muted mb-0"> {% if article.user.small_desc %}{{ article.user.small_desc }}{% endif %}</p>
+                </div>
             </div>
-        </div>
+        </a>
     </div>
     <br>
     <div class="container">
         {{ article.content | safe }}
+        <hr>
+        <img src="https://qrtag.net/api/qr.png" alt="qrtag">
     </div>
 </section>
 {% endblock content %}
