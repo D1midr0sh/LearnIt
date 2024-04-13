@@ -1,5 +1,5 @@
 from dotenv import load_dotenv
-from flask import Flask, redirect, render_template, request
+from flask import redirect, render_template, request
 from flask_login import current_user, LoginManager, login_user, login_required
 from flask_login import logout_user
 from flask_mail import Mail
@@ -124,9 +124,10 @@ def profile_edit():
             user.first_name = form.first_name.data
             user.last_name = form.last_name.data
             user.small_desc = form.small_desc.data
-            filename = secure_filename(form.avatar.data.filename)
-            form.avatar.data.save(os.path.join(app.config["SAVE_PATH"], filename))
-            user.avatar_path = os.path.join(app.config["UPLOAD_PATH"], filename)
+            if form.avatar.data:
+                filename = f"{user.id}.{secure_filename(form.avatar.data.filename).split('.')[-1]}"
+                form.avatar.data.save(os.path.join(app.config["SAVE_PATH"], filename))
+                user.avatar_path = os.path.join(app.config["UPLOAD_PATH"], filename)
             db_sess.commit()
             return redirect(f"/profile/{current_user.id}")
         return render_template("auth/profile_edit.html", form=form)

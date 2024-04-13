@@ -9,9 +9,9 @@
         <div class="row">
             <div class="col-md-6">
                 {% if user.avatar_path %}
-                    <img style="height: 200px;width: 200px;border-radius: 23px;" class="img-fluid fit-cover" src="{{ url_for('static', filename=user.avatar_path) }}" alt="Avatar not found" />
+                    <img style="height: 400px;width: 400px;border-radius: 23px;" class="img-fluid fit-cover" src="{{ url_for('static', filename=user.avatar_path) }}" alt="Avatar not found" />
                 {% else %}
-                    <img style="height: 200px;width: 200px;border-radius: 23px;" class="fit-cover" src="https://cdn.bootstrapstudio.io/placeholders/1400x800.png"/>
+                    <img style="height: 400px;width: 400px;border-radius: 23px;" class="fit-cover" src="https://i.pinimg.com/736x/3c/67/75/3c67757cef723535a7484a6c7bfbfc43.jpg"/>
                 {% endif %}
                 
             </div>
