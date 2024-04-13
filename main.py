@@ -125,7 +125,8 @@ def profile_edit():
             user.last_name = form.last_name.data
             user.small_desc = form.small_desc.data
             if form.avatar.data:
-                filename = f"{user.id}.{secure_filename(form.avatar.data.filename).split('.')[-1]}"
+                ext = secure_filename(form.avatar.data.filename).split('.')[-1]
+                filename = f"{user.id}.{ext}"
                 form.avatar.data.save(os.path.join(app.config["SAVE_PATH"], filename))
                 user.avatar_path = os.path.join(app.config["UPLOAD_PATH"], filename)
             db_sess.commit()
