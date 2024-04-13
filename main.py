@@ -104,7 +104,6 @@ def add():
 
 
 @app.route("/profile/<int:id>")
-@login_required
 def profile(id: int):
     with create_session() as db_sess:
         user = db_sess.query(User).get(id)

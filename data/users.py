@@ -1,14 +1,9 @@
 import imghdr
 import sqlalchemy
-import uuid
-from config import app
 from flask_login import UserMixin
 from werkzeug.security import check_password_hash, generate_password_hash
-from werkzeug.utils import secure_filename
 
-from .db_session import SqlAlchemyBase, create_session
-
-import os
+from .db_session import SqlAlchemyBase
 
 
 def validate_image(stream):
