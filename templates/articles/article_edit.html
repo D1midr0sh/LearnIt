@@ -1,7 +1,7 @@
 {% extends "index.html" %}
 
 {% block title %}
-<title>New article</title>
+<title>Edit article</title>
 {% endblock title %}
 
 {% block active %}
@@ -19,6 +19,7 @@
 <section class="py-1">
     <div class="container py-5">
         <div class="justify-content-center">
+            {% if current_user == article.user %}
             <form class="p-3" method="post">
                 {{ form.hidden_tag() }}
                 <div class="col-md-4 mb-3">
@@ -50,6 +51,13 @@
                     {{ form.submit(class="btn btn-secondary shadow w-25 align-center") }}
                 </div>
             </form>
+            {% else %}
+            <h1 class="display-1 text-center">Nice try, but this isn't your article.</h1>
+            <h4 class="display-6 text-muted text-center">try to write something yourself lmao</h4>
+            <div class="d-flex justify-content-center">
+                <a class="btn btn-primary btn-lg shadow m-2" role="button" href="/articles">Back to articles</a>
+            </div>
+            {% endif %}
         </div>
     </div>
 </section>

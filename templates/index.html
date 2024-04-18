@@ -4,7 +4,9 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
-    <title>Home - Brand</title>
+    {% block title %}
+    <title>Home - LearnIt</title>
+    {% endblock title %}
     <link rel="stylesheet" href="{{ url_for('static', filename='bootstrap/css/bootstrap.min.css')}}">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800&amp;display=swap">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.min.css')}}">
@@ -27,11 +29,14 @@
                 {% endblock active %}
                 {% if current_user.is_authenticated %}
                     <a class="navbar-brand" href="/profile/{{ current_user.id }}">{{current_user.first_name}}</a>
+                    <br>
+                    <a class="btn btn-secondary shadow" role="button" href="/add">Contribute</a>
                 {% else %}
                 <a class="btn btn-primary shadow m-2" role="button" href="/signup">Sign up</a>
-                {% endif %}
                 <br>
-                <a class="btn btn-secondary shadow" role="button" href="/add">Contribute</a>
+                <a class="btn btn-secondary shadow" role="button" href="/login">Log in</a>
+                {% endif %}
+                
             </div>
         </div>
     </nav>

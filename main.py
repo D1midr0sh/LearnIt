@@ -4,6 +4,7 @@ from flask_login import current_user, LoginManager, login_user, login_required
 from flask_login import logout_user
 from flask_mail import Mail
 from flask_ckeditor import CKEditor
+from werkzeug import exceptions
 from werkzeug.utils import secure_filename
 
 import os
@@ -103,6 +104,27 @@ def add():
     return render_template("articles/newarticle.html", form=form)
 
 
+@app.route("/article/<int:id>/edit", methods=["GET", "POST"])
+@login_required
+def article_edit(id: int):
+    with create_session() as db_sess:
+        article = db_sess.query(Article).get(id)
+        if article.user_id != current_user.id:
+            raise exceptions.Forbidden
+        form = ArticleForm(
+            title=article.title,
+            small_desc=article.small_desc,
+            content=article.content,
+        )
+        if form.validate_on_submit():
+            article.title = form.title.data
+            article.small_desc = form.small_desc.data
+            article.content = form.content.data
+            db_sess.commit()
+            return redirect(f"/article/{article.id}")
+        return render_template("articles/article_edit.html", form=form, article=article)
+
+
 @app.route("/profile/<int:id>")
 def profile(id: int):
     with create_session() as db_sess:
@@ -195,6 +217,21 @@ def login():
 def logout():
     logout_user()
     return redirect("/")
+
+
+@app.errorhandler(404)
+def page_not_found(error):
+    return render_template("errors/404.html"), 404
+
+
+@app.errorhandler(403)
+def page_not_found(error):
+    return render_template("errors/403.html"), 403
+
+
+@app.errorhandler(401)
+def page_not_found(error):
+    return render_template("errors/401.html"), 401
 
 
 if __name__ == "__main__":

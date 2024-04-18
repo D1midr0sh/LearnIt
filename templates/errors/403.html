@@ -1,0 +1,30 @@
+{% extends "index.html" %}
+
+{% block title %}
+<title>403</title>
+{% endblock title %}
+
+{% block active %}
+<ul class="navbar-nav mx-auto">
+    <li class="nav-item"><a class="nav-link" href="/">Home</a></li>
+    <li class="nav-item"><a class="nav-link" href="/services">Videos</a></li>
+    <li class="nav-item"><a class="nav-link" href="/articles">Articles</a></li>
+    <li class="nav-item"></li>
+    <li class="nav-item"><a class="nav-link" href="/contacts">Contacts</a></li>
+</ul>
+{% endblock active %}
+
+{% block content %}
+
+<section class="py-1">
+    <div class="container py-5">
+        <div class="justify-content-center">
+            <h1 class="display-1 text-center">Access denied</h1>
+            <h4 class="display-6 text-muted text-center">You are trying to do something you're not supposed to</h4>
+            <div class="d-flex justify-content-center">
+                <a class="btn btn-primary btn-lg shadow m-2" role="button" href="/">Back to mainpage</a>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock content %}
